@@ -6,6 +6,7 @@ import puppeteer from "puppeteer-core";
 
 const root = path.join(process.cwd(), "out");
 const port = Number(process.env.PAGES_VERIFY_PORT ?? 4173);
+const basePath = process.env.GITHUB_PAGES_BASE_PATH ?? "/freykraft-com";
 const chromePath =
   process.env.PUPPETEER_EXECUTABLE_PATH ??
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
@@ -26,7 +27,17 @@ const mimeTypes = new Map([
 
 const server = createServer(async (request, response) => {
   const requestUrl = new URL(request.url ?? "/", `http://localhost:${port}`);
-  let filePath = path.join(root, decodeURIComponent(requestUrl.pathname));
+  let pathname = decodeURIComponent(requestUrl.pathname);
+
+  if (basePath && pathname.startsWith(`${basePath}/`)) {
+    pathname = pathname.slice(basePath.length);
+  }
+
+  if (basePath && pathname === basePath) {
+    pathname = "/";
+  }
+
+  let filePath = path.join(root, pathname);
 
   if (!filePath.startsWith(root)) {
     response.writeHead(403);
@@ -77,7 +88,9 @@ try {
       isMobile: viewport.isMobile ?? false,
       deviceScaleFactor: viewport.deviceScaleFactor ?? 1
     });
-    await page.goto(`http://localhost:${port}`, { waitUntil: "networkidle0" });
+    await page.goto(`http://localhost:${port}${basePath}/`, {
+      waitUntil: "networkidle0"
+    });
 
     const diagnostics = await page.evaluate(() => {
       const heroImage = document.querySelector("img[alt^='Handcrafted']");
@@ -118,7 +131,9 @@ try {
   }
 
   const page = await browser.newPage();
-  await page.goto(`http://localhost:${port}`, { waitUntil: "networkidle0" });
+  await page.goto(`http://localhost:${port}${basePath}/`, {
+    waitUntil: "networkidle0"
+  });
   await page.type("input[type='email']", `qa+${Date.now()}@freykraft.test`);
   await page.click("button[type='submit']");
   await page.waitForFunction(

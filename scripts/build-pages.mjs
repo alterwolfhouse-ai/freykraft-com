@@ -22,6 +22,12 @@ try {
     stdio: "inherit",
     env: {
       ...process.env,
+      GITHUB_PAGES_BASE_PATH:
+        process.env.GITHUB_PAGES_BASE_PATH ?? "/freykraft-com",
+      NEXT_PUBLIC_ASSET_BASE_PATH:
+        process.env.NEXT_PUBLIC_ASSET_BASE_PATH ??
+        process.env.GITHUB_PAGES_BASE_PATH ??
+        "/freykraft-com",
       STATIC_EXPORT: "true",
       NEXT_PUBLIC_STATIC_EXPORT: "true"
     }

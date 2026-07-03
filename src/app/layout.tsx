@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { publicAssetPath } from "@/lib/paths";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://freykraft.com";
@@ -49,7 +50,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Script src="/freykraft-config.js" strategy="beforeInteractive" />
+        <Script
+          src={publicAssetPath("/freykraft-config.js")}
+          strategy="beforeInteractive"
+        />
         {children}
       </body>
     </html>

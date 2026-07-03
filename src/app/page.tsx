@@ -8,6 +8,7 @@ import {
   launchPreview,
   trustSignals
 } from "@/data/launch";
+import { publicAssetPath } from "@/lib/paths";
 
 const socialLinks = [
   {
@@ -29,7 +30,7 @@ export default function Home() {
     <main className="bg-cream text-ink">
       <section className="relative min-h-[84svh] overflow-hidden">
         <Image
-          src="/images/freykraft-hero-still-life.png"
+          src={publicAssetPath("/images/freykraft-hero-still-life.png")}
           alt="Handcrafted ceramic, wood, linen, and woven decor arranged in a warm modern interior."
           fill
           priority
