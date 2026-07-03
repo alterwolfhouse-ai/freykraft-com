@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model EmailSubscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  source      String
+  consent     Boolean  @default(true)
+  firstUtm    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  story       String
+  artisan     String?
+  materials   String[]
+  care        String?
+  seoTitle    String?
+  seoMeta     String?
+  uniquePiece Boolean   @default(false)
+  status      String    @default("draft")
+  variants    Variant[]
+  images      Image[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Variant {
+  id             String  @id @default(cuid())
+  productId      String
+  product        Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku            String  @unique
+  priceCents     Int
+  compareAtCents Int?
+  costCents      Int?
+  weightGrams    Int?
+  lengthMm       Int?
+  widthMm        Int?
+  heightMm       Int?
+  inventoryQty   Int     @default(0)
+}
+
+model Image {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String
+  sortOrder Int     @default(0)
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  email       String
+  status      OrderStatus @default(PENDING)
+  subtotalCents Int
+  taxCents      Int       @default(0)
+  shippingCents Int       @default(0)
+  totalCents    Int
+  stripePaymentIntentId String? @unique
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FULFILLED
+  DELIVERED
+  REFUNDED
+}

@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+tsconfig.tsbuildinfo
+
+# production
+build/
+dist/
+
+# local env
+.env
+.env*.local
+.local/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# system
+.DS_Store
+Thumbs.db
+
+# generated review artifacts
+tmp/
+output/
+
+# source handoffs stay local unless explicitly approved for publishing
+*.pdf
