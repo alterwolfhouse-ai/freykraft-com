@@ -8,42 +8,42 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://freykraft.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Freykraft - Handcrafted Home Decor and Gifts",
-    template: "%s | Freykraft"
+    default: "Freycraft Marine Industries Sdn Bhd",
+    template: "%s | Freycraft",
   },
   description:
-    "Freykraft is a modern artisan store for handcrafted home decor, meaningful gifts, and maker-led design stories.",
+    "Freycraft Marine Industries Sdn Bhd is a Sabah-based fiberglass boat builder, marine engine service provider, and boat repair company.",
   alternates: {
-    canonical: "/"
+    canonical: "/",
   },
   openGraph: {
-    title: "Freykraft - Handcrafted Home Decor and Gifts",
+    title: "Freycraft Marine Industries Sdn Bhd",
     description:
-      "Join Freykraft for early access to handcrafted decor, gifts, and artisan stories.",
+      "Explore Freycraft Marine Industries company profile, marine services, and fiberglass boatbuilding highlights.",
     url: siteUrl,
-    siteName: "Freykraft",
+    siteName: "Freycraft",
     images: [
       {
         url: "/images/freykraft-hero-still-life.png",
         width: 1536,
         height: 1024,
-        alt: "Handcrafted ceramic, wood, linen, and woven decor arranged in a warm modern interior."
-      }
+        alt: "Freycraft Marine Industries company profile image.",
+      },
     ],
     locale: "en_US",
-    type: "website"
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Freykraft - Handcrafted Home Decor and Gifts",
+    title: "Freycraft Marine Industries Sdn Bhd",
     description:
-      "Early access is opening soon for Freykraft's handcrafted home decor and gift shop.",
-    images: ["/images/freykraft-hero-still-life.png"]
-  }
+      "Fiberglass boatbuilding, marine engine service, and boat repair in Sabah.",
+    images: ["/images/freykraft-hero-still-life.png"],
+  },
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {

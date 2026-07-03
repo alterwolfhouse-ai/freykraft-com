@@ -22,7 +22,7 @@ const mimeTypes = new Map([
   [".jpeg", "image/jpeg"],
   [".svg", "image/svg+xml"],
   [".webp", "image/webp"],
-  [".ico", "image/x-icon"]
+  [".ico", "image/x-icon"],
 ]);
 
 const server = createServer(async (request, response) => {
@@ -56,7 +56,8 @@ const server = createServer(async (request, response) => {
   try {
     const body = await readFile(filePath);
     response.writeHead(200, {
-      "content-type": mimeTypes.get(path.extname(filePath)) ?? "application/octet-stream"
+      "content-type":
+        mimeTypes.get(path.extname(filePath)) ?? "application/octet-stream",
     });
     response.end(body);
   } catch {
@@ -70,14 +71,20 @@ await new Promise((resolve) => server.listen(port, resolve));
 const browser = await puppeteer.launch({
   executablePath: chromePath,
   headless: true,
-  args: ["--no-sandbox", "--disable-setuid-sandbox"]
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
 });
 
 try {
   const results = [];
   const viewports = [
     { name: "desktop", width: 1440, height: 1000 },
-    { name: "mobile", width: 390, height: 844, isMobile: true, deviceScaleFactor: 2 }
+    {
+      name: "mobile",
+      width: 390,
+      height: 844,
+      isMobile: true,
+      deviceScaleFactor: 2,
+    },
   ];
 
   for (const viewport of viewports) {
@@ -86,30 +93,30 @@ try {
       width: viewport.width,
       height: viewport.height,
       isMobile: viewport.isMobile ?? false,
-      deviceScaleFactor: viewport.deviceScaleFactor ?? 1
+      deviceScaleFactor: viewport.deviceScaleFactor ?? 1,
     });
     await page.goto(`http://localhost:${port}${basePath}/`, {
-      waitUntil: "networkidle0"
+      waitUntil: "networkidle0",
     });
 
     const diagnostics = await page.evaluate(() => {
-      const heroImage = document.querySelector("img[alt^='Handcrafted']");
+      const heroImage = document.querySelector(".hero-slide");
       const h1 = document.querySelector("h1");
       return {
         title: document.title,
         horizontalOverflow: Math.ceil(
-          document.documentElement.scrollWidth - window.innerWidth
+          document.documentElement.scrollWidth - window.innerWidth,
         ),
         heroImageLoaded:
           heroImage instanceof HTMLImageElement &&
           heroImage.complete &&
           heroImage.naturalWidth > 100,
-        h1Text: h1?.textContent?.trim()
+        h1Text: h1?.textContent?.trim(),
       };
     });
 
-    if (!diagnostics.title.includes("Freykraft")) {
-      throw new Error(`${viewport.name}: missing Freykraft title`);
+    if (!diagnostics.title.includes("Freycraft")) {
+      throw new Error(`${viewport.name}: missing Freycraft title`);
     }
 
     if (!diagnostics.heroImageLoaded) {
@@ -118,12 +125,12 @@ try {
 
     if (diagnostics.horizontalOverflow > 1) {
       throw new Error(
-        `${viewport.name}: horizontal overflow ${diagnostics.horizontalOverflow}px`
+        `${viewport.name}: horizontal overflow ${diagnostics.horizontalOverflow}px`,
       );
     }
 
-    if (diagnostics.h1Text !== "Freykraft") {
-      throw new Error(`${viewport.name}: H1 is not Freykraft`);
+    if (diagnostics.h1Text !== "Freycraft") {
+      throw new Error(`${viewport.name}: H1 is not Freycraft`);
     }
 
     results.push({ viewport: viewport.name, diagnostics });
@@ -132,13 +139,16 @@ try {
 
   const page = await browser.newPage();
   await page.goto(`http://localhost:${port}${basePath}/`, {
-    waitUntil: "networkidle0"
+    waitUntil: "networkidle0",
   });
-  await page.type("input[type='email']", `qa+${Date.now()}@freykraft.test`);
+  await page.type("input[type='email']", `qa+${Date.now()}@freycraft.test`);
   await page.click("button[type='submit']");
   await page.waitForFunction(
-    () => document.body.textContent?.includes("Email capture needs a form endpoint"),
-    { timeout: 10000 }
+    () =>
+      document.body.textContent?.includes(
+        "Email capture needs a form endpoint",
+      ),
+    { timeout: 10000 },
   );
   await page.close();
 
