@@ -34,3 +34,6 @@ output/
 *.zip
 CONTENT-AUDIT-AND-DOMAIN-SETUP.md
 action-plan.md
+
+# local editor/agent config
+.claude/

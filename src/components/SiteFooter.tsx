@@ -8,7 +8,7 @@ export function SiteFooter() {
     <footer className="border-t border-hairline bg-bg text-ink">
       <div className="mx-auto grid max-w-[1600px] gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.15fr_0.85fr_0.75fr] lg:px-12">
         <div>
-          <BrandMark />
+          <BrandMark large />
           <p className="fk-copy mt-5 max-w-[520px] text-sm">
             {companyInfo.summary}
           </p>

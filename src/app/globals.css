@@ -215,6 +215,10 @@ input {
   animation: fkMarquee 36s linear infinite;
 }
 
+.fk-marquee:hover {
+  animation-play-state: paused;
+}
+
 @keyframes fkMarquee {
   from {
     transform: translateX(0);
@@ -223,6 +227,187 @@ input {
   to {
     transform: translateX(-50%);
   }
+}
+
+/* --- Scroll reveal system (activated by ScrollFX; without JS content stays visible) --- */
+html.fk-js [data-reveal] {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 950ms var(--fk-ease),
+    transform 950ms var(--fk-ease);
+  transition-delay: calc(var(--fk-d, 0) * 95ms);
+  will-change: opacity, transform;
+}
+
+html.fk-js [data-reveal="left"] {
+  transform: translateX(-44px);
+}
+
+html.fk-js [data-reveal="right"] {
+  transform: translateX(44px);
+}
+
+html.fk-js [data-reveal="zoom"] {
+  transform: scale(0.94);
+}
+
+html.fk-js [data-reveal="fade"] {
+  transform: none;
+}
+
+html.fk-js [data-reveal].is-inview {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Hero entrance choreography (pure CSS, runs on load) --- */
+.fk-hero-item {
+  opacity: 0;
+  animation: fkRise 1s var(--fk-ease) forwards;
+  animation-delay: calc(var(--fk-i, 0) * 130ms + 120ms);
+}
+
+@keyframes fkRise {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fk-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0 0.06em 0.08em 0;
+  margin: 0 -0.06em -0.08em 0;
+}
+
+.fk-word > span {
+  display: inline-block;
+  transform: translateY(112%);
+  animation: fkWord 0.9s var(--fk-ease) forwards;
+  animation-delay: calc(var(--fk-i, 0) * 75ms + 250ms);
+}
+
+@keyframes fkWord {
+  to {
+    transform: none;
+  }
+}
+
+/* Hero collage: fade + unblur in (opacity/filter only, so parallax owns transform) */
+.fk-hero-img {
+  opacity: 0;
+  animation: fkImageIn 1.3s var(--fk-ease) forwards;
+  animation-delay: calc(var(--fk-i, 0) * 180ms + 420ms);
+}
+
+@keyframes fkImageIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Slow drift on hero imagery for a living, handcrafted feel */
+.fk-drift {
+  animation: fkDrift 11s ease-in-out infinite alternate;
+}
+
+@keyframes fkDrift {
+  from {
+    transform: scale(1.02) translateY(0);
+  }
+
+  to {
+    transform: scale(1.07) translateY(-10px);
+  }
+}
+
+/* --- Parallax (ScrollFX sets --fk-py) --- */
+[data-parallax] {
+  transform: translate3d(0, var(--fk-py, 0px), 0);
+}
+
+/* --- Header scroll state --- */
+.fk-header {
+  transition:
+    box-shadow 400ms ease,
+    background 400ms ease;
+}
+
+html.fk-scrolled .fk-header {
+  background: rgba(249, 249, 249, 0.97);
+  box-shadow: 0 14px 34px -22px rgba(31, 29, 26, 0.3);
+}
+
+/* --- Animated nav underline --- */
+.fk-navlink {
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.fk-navlink::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  content: "";
+  background: #b5643c;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 350ms var(--fk-ease);
+}
+
+.fk-navlink:hover::after,
+.fk-navlink[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* --- Mobile menu overlay --- */
+.fk-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 350ms ease;
+}
+
+.fk-mobile-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.fk-mobile-overlay .fk-mobile-link {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 500ms var(--fk-ease),
+    transform 500ms var(--fk-ease);
+  transition-delay: 0ms;
+}
+
+.fk-mobile-overlay.is-open .fk-mobile-link {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--fk-i, 0) * 60ms + 120ms);
 }
 
 @media (prefers-reduced-motion: reduce) {

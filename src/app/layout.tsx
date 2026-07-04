@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Jost, Playfair_Display } from "next/font/google";
 import Script from "next/script";
+import { ScrollFX } from "@/components/ScrollFX";
 import { publicAssetPath } from "@/lib/paths";
 import "./globals.css";
 
@@ -84,6 +85,7 @@ export default function RootLayout({
             __html: JSON.stringify(organizationJsonLd),
           }}
         />
+        <ScrollFX />
         {children}
       </body>
     </html>

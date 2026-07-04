@@ -1,5 +1,6 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
+import { Fragment } from "react";
 import { ArrowRight } from "lucide-react";
 import { EmailCaptureForm } from "@/components/EmailCaptureForm";
 import { ProductCard } from "@/components/ProductCard";
@@ -14,6 +15,37 @@ import { publicAssetPath } from "@/lib/paths";
 
 const marqueeText =
   "Hand-thrown ceramics / Woven wool / Small-batch gifts / Natural materials / Maker-led home decor / ";
+
+const heroWords: Array<{ text: string; accent?: boolean }> = [
+  { text: "Objects" },
+  { text: "made" },
+  { text: "slowly,", accent: true },
+  { text: "to" },
+  { text: "be" },
+  { text: "lived" },
+  { text: "with." },
+];
+
+function HeroHeadline() {
+  return (
+    <h1 className="mt-7 font-serif text-5xl font-medium leading-[1.04] text-ink sm:text-7xl lg:text-8xl">
+      {heroWords.map((word, index) => (
+        <Fragment key={word.text}>
+          <span className="fk-word">
+            <span style={{ "--fk-i": index } as React.CSSProperties}>
+              {word.accent ? (
+                <em className="font-normal text-terracotta">{word.text}</em>
+              ) : (
+                word.text
+              )}
+            </span>
+          </span>
+          {index < heroWords.length - 1 ? " " : ""}
+        </Fragment>
+      ))}
+    </h1>
+  );
+}
 
 export function HomeExperience() {
   const featured = featuredProducts[0];
@@ -42,10 +74,16 @@ function Hero() {
       />
       <div className="mx-auto grid min-h-[calc(92svh-6rem)] max-w-[1600px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
         <div className="relative z-10 mx-auto max-w-[840px] text-center lg:mx-0 lg:text-left">
-          <p className="fk-eyebrow">
+          <p
+            className="fk-eyebrow fk-hero-item"
+            style={{ "--fk-i": 0 } as React.CSSProperties}
+          >
             Handcrafted home decor - small batch - USA
           </p>
-          <div className="mt-7 grid grid-cols-3 gap-2 lg:hidden">
+          <div
+            className="fk-hero-item mt-7 grid grid-cols-3 gap-2 lg:hidden"
+            style={{ "--fk-i": 1 } as React.CSSProperties}
+          >
             {[
               "/images/freykraft-tabletop-ceramics.webp",
               "/images/freykraft-textiles-throws.webp",
@@ -63,15 +101,17 @@ function Hero() {
               </div>
             ))}
           </div>
-          <h1 className="mt-7 font-serif text-5xl font-medium leading-[1.04] text-ink sm:text-7xl lg:text-8xl">
-            Objects made{" "}
-            <em className="font-normal text-terracotta">slowly,</em> to be lived
-            with.
-          </h1>
-          <p className="fk-copy mx-auto mt-7 max-w-[48ch] text-lg lg:mx-0">
+          <HeroHeadline />
+          <p
+            className="fk-copy fk-hero-item mx-auto mt-7 max-w-[48ch] text-lg lg:mx-0"
+            style={{ "--fk-i": 4 } as React.CSSProperties}
+          >
             {heroSlides[0].text}
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-start">
+          <div
+            className="fk-hero-item mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-start"
+            style={{ "--fk-i": 5 } as React.CSSProperties}
+          >
             <Link href="/products" className="fk-button fk-button-primary">
               Preview the collection
               <ArrowRight aria-hidden="true" className="size-4" />
@@ -81,40 +121,56 @@ function Hero() {
               <ArrowRight aria-hidden="true" className="size-4" />
             </Link>
           </div>
-          <div id="early-access" className="mx-auto mt-10 scroll-mt-28 lg:mx-0">
+          <div
+            id="early-access"
+            className="fk-hero-item mx-auto mt-10 scroll-mt-28 lg:mx-0"
+            style={{ "--fk-i": 6 } as React.CSSProperties}
+          >
             <EmailCaptureForm />
           </div>
         </div>
 
         <div className="relative hidden min-h-[520px] lg:block">
-          <div className="fk-image-frame absolute left-0 top-8 aspect-[4/5] w-[42%] shadow-[0_34px_64px_-30px_rgba(31,29,26,0.4)]">
+          <div
+            className="fk-image-frame fk-hero-img absolute left-0 top-8 aspect-[4/5] w-[42%] shadow-[0_34px_64px_-30px_rgba(31,29,26,0.4)]"
+            style={{ "--fk-i": 0 } as React.CSSProperties}
+            data-parallax="0.05"
+          >
             <Image
               src={publicAssetPath("/images/freykraft-tabletop-ceramics.webp")}
               alt="Freykraft tabletop ceramics"
               fill
               priority
               sizes="(min-width: 1024px) 28vw, 45vw"
-              className="object-cover"
+              className="fk-drift object-cover"
             />
           </div>
-          <div className="fk-image-frame absolute right-0 top-0 aspect-[4/5] w-[45%] shadow-[0_34px_64px_-30px_rgba(31,29,26,0.38)]">
+          <div
+            className="fk-image-frame fk-hero-img absolute right-0 top-0 aspect-[4/5] w-[45%] shadow-[0_34px_64px_-30px_rgba(31,29,26,0.38)]"
+            style={{ "--fk-i": 1 } as React.CSSProperties}
+            data-parallax="0.09"
+          >
             <Image
               src={publicAssetPath("/images/freykraft-textiles-throws.webp")}
               alt="Freykraft woven textiles"
               fill
               priority
               sizes="(min-width: 1024px) 30vw, 45vw"
-              className="object-cover"
+              className="fk-drift object-cover"
             />
           </div>
-          <div className="fk-image-frame absolute bottom-0 left-[24%] aspect-[5/4] w-[54%] shadow-[0_40px_80px_-42px_rgba(31,29,26,0.5)]">
+          <div
+            className="fk-image-frame fk-hero-img absolute bottom-0 left-[24%] aspect-[5/4] w-[54%] shadow-[0_40px_80px_-42px_rgba(31,29,26,0.5)]"
+            style={{ "--fk-i": 2 } as React.CSSProperties}
+            data-parallax="0.13"
+          >
             <Image
               src={publicAssetPath("/images/freykraft-hero-still-life.webp")}
               alt="Freykraft home decor still life"
               fill
               priority
               sizes="(min-width: 1024px) 34vw, 55vw"
-              className="object-cover"
+              className="fk-drift object-cover"
             />
           </div>
         </div>
@@ -138,7 +194,10 @@ function CraftGrid() {
       id="craft"
       className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 lg:px-12"
     >
-      <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div
+        className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
+        data-reveal
+      >
         <div>
           <p className="fk-eyebrow">Shop by craft</p>
           <h2 className="mt-3 font-serif text-4xl font-medium text-ink sm:text-5xl">
@@ -152,11 +211,13 @@ function CraftGrid() {
       </div>
 
       <div className="grid gap-9 md:grid-cols-2 xl:grid-cols-5">
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <Link
             key={category.slug}
             href={`/products/${category.slug}`}
             className="group block"
+            data-reveal
+            style={{ "--fk-d": index } as React.CSSProperties}
           >
             <span className="fk-image-frame block aspect-[4/5]">
               <Image
@@ -193,7 +254,7 @@ function ManifestoBand() {
         className="fk-field-lines absolute bottom-[-15rem] left-[-10rem] size-[36rem] opacity-30"
       />
       <div className="mx-auto grid max-w-[1600px] gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_0.9fr] lg:px-12">
-        <div>
+        <div data-reveal="left">
           <p className="fk-eyebrow text-sandstone">Our craft</p>
           <h2 className="mt-5 max-w-[18ch] font-serif text-5xl font-medium leading-tight text-sand sm:text-6xl">
             Natural materials. Finished by human hands.
@@ -207,14 +268,19 @@ function ManifestoBand() {
             <ArrowRight aria-hidden="true" className="size-4" />
           </Link>
         </div>
-        <div className="fk-image-frame min-h-[420px] border-sand/20 bg-forest-dark">
-          <Image
-            src={publicAssetPath("/images/freykraft-furniture-rugs.webp")}
-            alt="Freykraft small furniture and rugs"
-            fill
-            sizes="(min-width: 1024px) 42vw, 90vw"
-            className="object-cover opacity-90"
-          />
+        <div className="h-full" data-reveal="right">
+          <div
+            className="fk-image-frame h-full min-h-[420px] border-sand/20 bg-forest-dark"
+            data-parallax="0.06"
+          >
+            <Image
+              src={publicAssetPath("/images/freykraft-furniture-rugs.webp")}
+              alt="Freykraft small furniture and rugs"
+              fill
+              sizes="(min-width: 1024px) 42vw, 90vw"
+              className="object-cover opacity-90"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -231,16 +297,18 @@ function FeaturedPiece({
       id="featured"
       className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.95fr_0.75fr] lg:items-center lg:px-12"
     >
-      <div className="fk-image-frame aspect-[5/4]">
-        <Image
-          src={publicAssetPath(product.image)}
-          alt={product.name}
-          fill
-          sizes="(min-width: 1024px) 52vw, 90vw"
-          className="object-cover"
-        />
+      <div data-reveal="zoom">
+        <div className="fk-image-frame aspect-[5/4]" data-parallax="0.05">
+          <Image
+            src={publicAssetPath(product.image)}
+            alt={product.name}
+            fill
+            sizes="(min-width: 1024px) 52vw, 90vw"
+            className="object-cover"
+          />
+        </div>
       </div>
-      <div>
+      <div data-reveal="right">
         <p className="fk-eyebrow">Featured piece</p>
         <h2 className="mt-4 font-serif text-4xl font-medium leading-tight text-ink sm:text-5xl">
           {product.name}
@@ -289,7 +357,10 @@ function LaunchGrid() {
   return (
     <section id="launch" className="border-t border-hairline bg-sand/70">
       <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 lg:px-12">
-        <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <div
+          className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
+          data-reveal
+        >
           <div>
             <p className="fk-eyebrow">Launch edit</p>
             <h2 className="mt-3 font-serif text-4xl font-medium text-ink sm:text-5xl">
@@ -302,8 +373,14 @@ function LaunchGrid() {
           </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-          {featuredProducts.slice(0, 8).map((product) => (
-            <ProductCard key={product.slug} product={product} compact />
+          {featuredProducts.slice(0, 8).map((product, index) => (
+            <div
+              key={product.slug}
+              data-reveal
+              style={{ "--fk-d": index % 4 } as React.CSSProperties}
+            >
+              <ProductCard product={product} compact />
+            </div>
           ))}
         </div>
       </div>

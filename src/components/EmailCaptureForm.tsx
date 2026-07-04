@@ -120,7 +120,7 @@ export function EmailCaptureForm() {
       </div>
       <p
         className={[
-          "mt-3 flex min-h-6 items-center gap-2 text-sm",
+          "mt-3 flex min-h-6 items-center justify-center gap-2 text-sm lg:justify-start",
           state === "error" ? "text-terracotta-dark" : "text-olive",
         ].join(" ")}
         role={state === "error" ? "alert" : "status"}
