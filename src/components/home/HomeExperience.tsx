@@ -14,7 +14,7 @@ import {
 import { publicAssetPath } from "@/lib/paths";
 
 const marqueeText =
-  "Hand-thrown ceramics / Woven wool / Small-batch gifts / Natural materials / Maker-led home decor / ";
+  "Hand-thrown ceramics / Handmade kitchenware / Ceramic urns / Woven wool / Small-batch gifts / Natural materials / Maker-led home decor / ";
 
 const heroWords: Array<{ text: string; accent?: boolean }> = [
   { text: "Objects" },
@@ -377,7 +377,7 @@ function LaunchGrid() {
           </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
-          {featuredProducts.slice(0, 8).map((product, index) => (
+          {featuredProducts.slice(0, 12).map((product, index) => (
             <div
               key={product.slug}
               data-reveal

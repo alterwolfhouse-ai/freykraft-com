@@ -12,7 +12,7 @@ export const heroSlides = [
   {
     eyebrow: "Launch collection",
     headline: "Handcrafted rooms, ready for the first release.",
-    text: "Preview artisan decor, gifts, textiles, and small furniture before the first Freykraft collection opens.",
+    text: "Preview artisan decor, handmade kitchenware, urns, textiles, and small furniture before the first Freykraft collection opens.",
     image: "/images/freykraft-hero-sale.webp",
     cta: "Explore Products",
     href: "/products",
@@ -57,14 +57,14 @@ export type Category = {
 
 export const categories: Category[] = [
   {
-    name: "Tabletop",
+    name: "Tabletop & Kitchen",
     slug: "tabletop",
     kicker: "Everyday rituals",
-    headline: "Ceramics that make the morning slower.",
+    headline: "Ceramics and kitchenware that make the morning slower.",
     keyword: "Ceramics",
     image: "/images/freykraft-tabletop-ceramics.webp",
     intro:
-      "Mugs, trays, and serving pieces selected for natural texture and quiet daily use.",
+      "Mugs, trays, handmade kitchenware, and serving pieces selected for natural texture and quiet daily use.",
     offer: "Join early access for the first tabletop release notes.",
     products: [
       {
@@ -81,6 +81,22 @@ export const categories: Category[] = [
         priceCents: 8000,
         badge: "Natural finish",
         description: "Warm wood grain with a low-profile serving shape.",
+      },
+      {
+        name: "Hand-carved Serving Spoons",
+        slug: "hand-carved-serving-spoons",
+        priceCents: 4200,
+        badge: "Kitchen set",
+        description:
+          "Carved wooden spoons with smooth handles for everyday cooking and serving.",
+      },
+      {
+        name: "Stoneware Mixing Bowl Set",
+        slug: "stoneware-mixing-bowl-set",
+        priceCents: 6800,
+        badge: "Kitchen preview",
+        description:
+          "Nesting stoneware bowls with a matte glaze, made for daily kitchen rituals.",
       },
     ],
   },
@@ -146,9 +162,17 @@ export const categories: Category[] = [
     keyword: "Furniture",
     image: "/images/freykraft-furniture-rugs.webp",
     intro:
-      "Side stools, woven rugs, and larger accent pieces with natural material stories.",
+      "Side stools, woven rugs, ceramic urns, and larger accent pieces with natural material stories.",
     offer: "Join early access for furniture and rug release updates.",
     products: [
+      {
+        name: "Glazed Ceramic Floor Urn",
+        slug: "glazed-ceramic-floor-urn",
+        priceCents: 16000,
+        badge: "Statement vessel",
+        description:
+          "Tall glazed urn with a sculptural silhouette for entryways, corners, and dried stems.",
+      },
       {
         name: "Bamboo Side Stool",
         slug: "bamboo-side-stool",

@@ -35,6 +35,8 @@ export const trustSignals = [
 
 export const launchPreview = [
   "Hand-thrown ceramic mug sets",
+  "Handmade kitchenware and serving pieces",
+  "Ceramic urns and sculptural vessels",
   "Alpaca throws and soft textiles",
   "Framed wall art and room-ready prints",
   "Woven baskets, trays, vases, and gifts",

@@ -13,7 +13,7 @@ const organizationJsonLd = {
   url: siteUrl,
   email: "hello@freykraft.com",
   description:
-    "Maker-led home decor store offering artisan ceramics, textiles, wall art, small furniture, and giftable objects.",
+    "Maker-led home decor store offering artisan ceramics, handmade kitchenware, ceramic urns, textiles, wall art, small furniture, and giftable objects.",
 };
 
 const jost = Jost({
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
     template: "%s | Freykraft",
   },
   description:
-    "Freykraft is a maker-led home decor store offering artisan ceramics, textiles, wall art, small furniture, and giftable objects shaped by natural materials.",
+    "Freykraft is a maker-led home decor store offering artisan ceramics, handmade kitchenware, ceramic urns, textiles, wall art, small furniture, and giftable objects shaped by natural materials.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Freykraft - Maker-led home decor & gifts",
     description:
-      "Preview artisan ceramics, textiles, wall art, furniture, and gifts before the first Freykraft collection opens.",
+      "Preview artisan ceramics, handmade kitchenware, urns, textiles, wall art, furniture, and gifts before the first Freykraft collection opens.",
     url: siteUrl,
     siteName: "Freykraft",
     images: [
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Freykraft - Maker-led home decor & gifts",
     description:
-      "Artisan ceramics, textiles, wall art, furniture, and gifts, curated into room-ready collections.",
+      "Artisan ceramics, handmade kitchenware, urns, textiles, wall art, furniture, and gifts, curated into room-ready collections.",
     images: ["/images/freykraft-hero-still-life.webp"],
   },
 };

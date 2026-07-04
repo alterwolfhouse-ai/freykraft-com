@@ -4,12 +4,12 @@ export const companyInfo = {
   founder: "Freykraft studio",
   address: "Online home decor studio serving early-access US shoppers.",
   studio:
-    "A maker-led home studio curating ceramics, textiles, wall art, small furniture, and gifts.",
+    "A maker-led home studio curating ceramics, handmade kitchenware, urns, textiles, wall art, small furniture, and gifts.",
   postalAddress: "Freykraft online store",
   phone: "",
   email: "hello@freykraft.com",
   summary:
-    "Freykraft is a maker-led home decor store offering artisan ceramics, textiles, wall art, small furniture, and giftable objects shaped by natural materials.",
+    "Freykraft is a maker-led home decor store offering artisan ceramics, handmade kitchenware, ceramic urns, textiles, wall art, small furniture, and giftable objects shaped by natural materials.",
   focus:
     "Curated, small-batch home goods with natural materials and artisan detail.",
 };
@@ -18,7 +18,7 @@ export const companyHighlights = [
   {
     label: "What we make",
     value:
-      "Ceramics, textiles, wall art, small furniture, and giftable objects, curated into room-ready collections.",
+      "Ceramics, handmade kitchenware, urns, textiles, wall art, small furniture, and giftable objects, curated into room-ready collections.",
   },
   {
     label: "Established",
@@ -40,7 +40,10 @@ export const companyProfileRows = [
   ["Store", companyInfo.displayName],
   ["Established", companyInfo.established],
   ["Focus", "Maker-led home decor and gifts"],
-  ["Collections", "Tabletop, Textiles, Wall Decor, Furniture, and Gifts"],
+  [
+    "Collections",
+    "Tabletop & Kitchen, Textiles, Wall Decor, Furniture, and Gifts",
+  ],
   ["Materials", "Clay, linen, wool, bamboo, teak, and natural fibers."],
   ["Launch status", "Exclusive early access before public commerce opens."],
   ["Contact", companyInfo.email],
