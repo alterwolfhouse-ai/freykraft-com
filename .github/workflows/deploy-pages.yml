@@ -34,10 +34,10 @@ jobs:
       - name: Build static export
         run: npm run build:pages
         env:
-          # Serving from https://alterwolfhouse-ai.github.io/freykraft-com/.
-          # Set to "" once freykraft.com DNS points at GitHub Pages and the
-          # custom domain is configured in repo Settings -> Pages.
-          GITHUB_PAGES_BASE_PATH: /freykraft-com
+          # Custom domain https://freykraft.com serves from the root, so no
+          # base path. If the custom domain is ever removed, set this back to
+          # /freykraft-com for the github.io project-page URL.
+          GITHUB_PAGES_BASE_PATH: ""
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
