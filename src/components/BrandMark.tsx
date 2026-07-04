@@ -15,11 +15,13 @@ export function BrandMark({ inverse = false, large = false }: BrandMarkProps) {
       aria-label="Freykraft home"
     >
       <Image
-        src={publicAssetPath("/images/freykraft-logo.png")}
+        src={publicAssetPath(
+          large ? "/images/freykraft-logo.png" : "/images/freykraft-mark.png",
+        )}
         alt=""
         aria-hidden="true"
-        width={large ? 64 : 42}
-        height={large ? 68 : 45}
+        width={large ? 64 : 46}
+        height={large ? 68 : 38}
         priority
         className="shrink-0 transition-transform duration-500 group-hover:scale-105"
       />

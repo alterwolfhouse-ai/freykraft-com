@@ -14,7 +14,18 @@ rmSync(disabledApiRoutes, { recursive: true, force: true });
 const movedApiRoutes = existsSync(apiRoutes);
 
 if (movedApiRoutes) {
-  renameSync(apiRoutes, disabledApiRoutes);
+  try {
+    renameSync(apiRoutes, disabledApiRoutes);
+  } catch (error) {
+    if (error.code === "EPERM" || error.code === "EBUSY") {
+      console.error(
+        "\nCannot move src/app/api aside: the folder is locked, usually by a " +
+          "running `next dev` server. Stop the dev server and retry.\n",
+      );
+      process.exit(1);
+    }
+    throw error;
+  }
 }
 
 try {

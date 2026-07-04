@@ -410,6 +410,12 @@ html.fk-scrolled .fk-header {
   transition-delay: calc(var(--fk-i, 0) * 60ms + 120ms);
 }
 
+@media (min-width: 1024px) {
+  .fk-mobile-overlay {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
