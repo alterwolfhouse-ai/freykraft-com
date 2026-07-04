@@ -130,48 +130,52 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative hidden min-h-[520px] lg:block">
+        <div className="hidden content-center lg:grid lg:grid-cols-[1fr_0.85fr] lg:gap-5">
           <div
-            className="fk-image-frame fk-hero-img absolute left-0 top-8 aspect-[4/5] w-[42%] shadow-[0_34px_64px_-30px_rgba(31,29,26,0.4)]"
+            className="fk-image-frame fk-hero-img aspect-[3/4] w-full self-center shadow-[0_40px_80px_-42px_rgba(31,29,26,0.5)]"
             style={{ "--fk-i": 0 } as React.CSSProperties}
             data-parallax="0.05"
-          >
-            <Image
-              src={publicAssetPath("/images/freykraft-tabletop-ceramics.webp")}
-              alt="Freykraft tabletop ceramics"
-              fill
-              priority
-              sizes="(min-width: 1024px) 28vw, 45vw"
-              className="fk-drift object-cover"
-            />
-          </div>
-          <div
-            className="fk-image-frame fk-hero-img absolute right-0 top-0 aspect-[4/5] w-[45%] shadow-[0_34px_64px_-30px_rgba(31,29,26,0.38)]"
-            style={{ "--fk-i": 1 } as React.CSSProperties}
-            data-parallax="0.09"
-          >
-            <Image
-              src={publicAssetPath("/images/freykraft-textiles-throws.webp")}
-              alt="Freykraft woven textiles"
-              fill
-              priority
-              sizes="(min-width: 1024px) 30vw, 45vw"
-              className="fk-drift object-cover"
-            />
-          </div>
-          <div
-            className="fk-image-frame fk-hero-img absolute bottom-0 left-[24%] aspect-[5/4] w-[54%] shadow-[0_40px_80px_-42px_rgba(31,29,26,0.5)]"
-            style={{ "--fk-i": 2 } as React.CSSProperties}
-            data-parallax="0.13"
           >
             <Image
               src={publicAssetPath("/images/freykraft-hero-still-life.webp")}
               alt="Freykraft home decor still life"
               fill
               priority
-              sizes="(min-width: 1024px) 34vw, 55vw"
+              sizes="(min-width: 1024px) 30vw, 90vw"
               className="fk-drift object-cover"
             />
+          </div>
+          <div className="grid translate-y-10 gap-5 self-center">
+            <div
+              className="fk-image-frame fk-hero-img aspect-[4/5] w-full shadow-[0_34px_64px_-30px_rgba(31,29,26,0.4)]"
+              style={{ "--fk-i": 1 } as React.CSSProperties}
+              data-parallax="0.09"
+            >
+              <Image
+                src={publicAssetPath(
+                  "/images/freykraft-tabletop-ceramics.webp",
+                )}
+                alt="Freykraft tabletop ceramics"
+                fill
+                priority
+                sizes="(min-width: 1024px) 24vw, 90vw"
+                className="fk-drift object-cover"
+              />
+            </div>
+            <div
+              className="fk-image-frame fk-hero-img aspect-square w-full shadow-[0_34px_64px_-30px_rgba(31,29,26,0.38)]"
+              style={{ "--fk-i": 2 } as React.CSSProperties}
+              data-parallax="0.12"
+            >
+              <Image
+                src={publicAssetPath("/images/freykraft-textiles-throws.webp")}
+                alt="Freykraft woven textiles"
+                fill
+                priority
+                sizes="(min-width: 1024px) 24vw, 90vw"
+                className="fk-drift object-cover"
+              />
+            </div>
           </div>
         </div>
       </div>
