@@ -71,8 +71,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${jost.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${jost.variable} ${playfair.variable}`}>
+      <body>
         <Script
           src={publicAssetPath("/freykraft-config.js")}
           strategy="beforeInteractive"
