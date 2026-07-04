@@ -13,6 +13,15 @@ const viewports = [
   { name: "mobile", width: 390, height: 844 },
 ];
 
+const routes = [
+  "/",
+  "/products",
+  "/products/tabletop",
+  "/about",
+  "/contact",
+  "/blogs",
+];
+
 await mkdir(screenshotDir, { recursive: true });
 
 const browser = await puppeteer.launch({
@@ -20,6 +29,10 @@ const browser = await puppeteer.launch({
   headless: true,
   args: ["--no-sandbox", "--disable-setuid-sandbox"],
 });
+
+function pageUrl(route) {
+  return new URL(route, url).toString();
+}
 
 try {
   const results = [];
@@ -32,21 +45,35 @@ try {
       deviceScaleFactor: viewport.name === "mobile" ? 2 : 1,
       isMobile: viewport.name === "mobile",
     });
-    await page.goto(url, { waitUntil: "networkidle0" });
+
+    await page.goto(pageUrl("/"), { waitUntil: "networkidle0" });
 
     const diagnostics = await page.evaluate(() => {
-      const heroImage = document.querySelector(".hero-slide");
-      const emailInput = document.querySelector("input[type='email']");
-      const button = document.querySelector("button[type='submit']");
+      const body = document.documentElement;
       const h1 = document.querySelector("h1");
-      const navLabels = Array.from(document.querySelectorAll("nav a span")).map(
+      const header = document.querySelector("header");
+      const navLabels = Array.from(document.querySelectorAll("nav a")).map(
         (element) => element.textContent?.trim(),
       );
-      const categorySections = Array.from(
-        document.querySelectorAll("[data-keyword]"),
-      ).map((element) => element.getAttribute("data-keyword"));
-      const main = document.querySelector("main");
-      const body = document.documentElement;
+      const heroImages = Array.from(document.querySelectorAll("main img")).map(
+        (image) => {
+          const rect = image.getBoundingClientRect();
+          return {
+            alt: image.getAttribute("alt"),
+            complete: image.complete,
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+            visible:
+              rect.width > 1 &&
+              rect.height > 1 &&
+              rect.top < window.innerHeight * 1.25 &&
+              rect.bottom > -120,
+          };
+        },
+      );
+      const productCards = document.querySelectorAll(".fk-product-card").length;
+      const imageFrames = document.querySelectorAll(".fk-image-frame").length;
+      const bodyText = document.body.textContent ?? "";
 
       function rectFor(element) {
         if (!element) {
@@ -67,27 +94,41 @@ try {
       return {
         title: document.title,
         horizontalOverflow: Math.ceil(body.scrollWidth - window.innerWidth),
-        heroImageLoaded:
-          heroImage instanceof HTMLImageElement &&
-          heroImage.complete &&
-          heroImage.naturalWidth > 100,
-        h1Text: h1?.textContent?.trim(),
+        h1Text: h1?.textContent?.replace(/\s+/g, " ").trim(),
+        header: rectFor(header),
         navLabels,
-        categorySections,
-        mainScrollSnapType: main ? getComputedStyle(main).scrollSnapType : "",
-        mainOverflowY: main ? getComputedStyle(main).overflowY : "",
-        h1: rectFor(h1),
-        formInput: rectFor(emailInput),
-        submitButton: rectFor(button),
+        heroImages,
+        productCards,
+        imageFrames,
+        hasPasswordInput: Boolean(
+          document.querySelector("input[type='password']"),
+        ),
+        forbiddenTextFound: [
+          "/cart",
+          "/account",
+          "godfreyyin",
+          "+60 12",
+          "Continue checkout",
+          "Launch savings",
+        ].filter((text) => bodyText.includes(text)),
+        cartLinks: Array.from(document.querySelectorAll("a[href]")).filter(
+          (anchor) => {
+            const href = anchor.getAttribute("href") ?? "";
+            return href === "/cart" || href === "/account";
+          },
+        ).length,
+        mainScrollSnapType: getComputedStyle(
+          document.querySelector("main") ?? document.body,
+        ).scrollSnapType,
       };
     });
 
-    if (!diagnostics.title.includes("Freycraft")) {
-      throw new Error(`${viewport.name}: document title is missing Freycraft`);
+    if (!diagnostics.title.includes("Freykraft")) {
+      throw new Error(`${viewport.name}: document title is missing Freykraft`);
     }
 
-    if (!diagnostics.heroImageLoaded) {
-      throw new Error(`${viewport.name}: hero image did not load`);
+    if (!diagnostics.h1Text?.includes("Objects made slowly")) {
+      throw new Error(`${viewport.name}: homepage H1 did not render`);
     }
 
     if (diagnostics.horizontalOverflow > 1) {
@@ -96,129 +137,167 @@ try {
       );
     }
 
-    if (diagnostics.h1Text !== "Freycraft") {
-      throw new Error(`${viewport.name}: H1 is not Freycraft`);
+    if (!diagnostics.header || diagnostics.header.height > 96) {
+      throw new Error(`${viewport.name}: header did not render compactly`);
     }
 
-    if (!diagnostics.mainScrollSnapType.includes("mandatory")) {
-      throw new Error(
-        `${viewport.name}: main is not using mandatory scroll snap`,
-      );
-    }
-
-    if (!["auto", "scroll"].includes(diagnostics.mainOverflowY)) {
-      throw new Error(`${viewport.name}: main is not the vertical scroll area`);
-    }
-
-    for (const label of [
-      "Home",
-      "About Us",
-      "Contact Us",
-      "Products",
-      "Blogs",
-      "Cart",
-      "Account",
-    ]) {
+    for (const label of ["Home", "About", "Products", "Blogs", "Contact"]) {
       if (!diagnostics.navLabels.includes(label)) {
         throw new Error(`${viewport.name}: missing ${label} nav item`);
       }
     }
 
-    for (const keyword of [
-      "Highlights",
-      "Ceramics",
-      "Textiles",
-      "Wall Art",
-      "Furniture",
-      "Gifts",
-      "Information",
-    ]) {
-      if (!diagnostics.categorySections.includes(keyword)) {
-        throw new Error(`${viewport.name}: missing ${keyword} snap section`);
-      }
+    if (diagnostics.productCards < 8 || diagnostics.imageFrames < 10) {
+      throw new Error(`${viewport.name}: gallery/product sections are missing`);
+    }
+
+    if (diagnostics.hasPasswordInput || diagnostics.cartLinks > 0) {
+      throw new Error(`${viewport.name}: fake commerce/account surface found`);
+    }
+
+    if (diagnostics.forbiddenTextFound.length > 0) {
+      throw new Error(
+        `${viewport.name}: forbidden launch text found: ${diagnostics.forbiddenTextFound.join(
+          ", ",
+        )}`,
+      );
+    }
+
+    const unloaded = diagnostics.heroImages.filter(
+      (image) =>
+        image.visible &&
+        (!image.complete || image.width < 50 || image.height < 50),
+    );
+    if (unloaded.length) {
+      throw new Error(`${viewport.name}: ${unloaded.length} images failed`);
+    }
+
+    if (diagnostics.mainScrollSnapType !== "none") {
+      throw new Error(
+        `${viewport.name}: old snap-scroll shell is still active`,
+      );
     }
 
     const screenshotPath = path.join(
       screenshotDir,
-      `freykraft-${viewport.name}.png`,
+      `freykraft-${viewport.name}-hero.png`,
     );
-    await page.screenshot({ path: screenshotPath, fullPage: true });
+    await page.screenshot({ path: screenshotPath });
 
-    await page.evaluate(() => {
-      const main = document.querySelector("main");
-      const section = document.querySelector("#tabletop");
+    const sectionScreenshots = [];
+    for (const section of ["craft", "story", "featured", "launch"]) {
+      await page.evaluate((sectionId) => {
+        document.getElementById(sectionId)?.scrollIntoView({
+          block: "start",
+          inline: "nearest",
+        });
+      }, section);
+      await new Promise((resolve) => setTimeout(resolve, 900));
 
-      if (main instanceof HTMLElement && section instanceof HTMLElement) {
-        main.scrollTop = section.offsetTop;
+      const sectionDiagnostics = await page.evaluate((sectionId) => {
+        const visibleImages = Array.from(
+          document.querySelectorAll(`#${sectionId} img`),
+        ).filter((image) => {
+          const rect = image.getBoundingClientRect();
+          return (
+            rect.width > 1 &&
+            rect.height > 1 &&
+            rect.top < window.innerHeight &&
+            rect.bottom > 0
+          );
+        });
+
+        return {
+          section: sectionId,
+          visibleImages: visibleImages.length,
+          unloadedImages: visibleImages.filter(
+            (image) =>
+              !image.complete ||
+              image.naturalWidth < 50 ||
+              image.naturalHeight < 50,
+          ).length,
+          horizontalOverflow: Math.ceil(
+            document.documentElement.scrollWidth - window.innerWidth,
+          ),
+        };
+      }, section);
+
+      if (sectionDiagnostics.unloadedImages > 0) {
+        throw new Error(
+          `${viewport.name}/${section}: visible images did not load`,
+        );
       }
-    });
-    await new Promise((resolve) => setTimeout(resolve, 900));
 
-    const categoryDiagnostics = await page.evaluate(() => {
-      const section = document.querySelector("#tabletop");
-      const cards = Array.from(section?.querySelectorAll("article") ?? []);
-      const letters = Array.from(
-        document.querySelectorAll(".transition-letter"),
+      if (sectionDiagnostics.horizontalOverflow > 1) {
+        throw new Error(
+          `${viewport.name}/${section}: horizontal overflow ${sectionDiagnostics.horizontalOverflow}px`,
+        );
+      }
+
+      const sectionScreenshotPath = path.join(
+        screenshotDir,
+        `freykraft-${viewport.name}-${section}.png`,
       );
-      const rect = section?.getBoundingClientRect();
-      const cardBottom = Math.max(
-        ...cards.map((card) => card.getBoundingClientRect().bottom),
-      );
-
-      return {
-        sectionHeight: rect?.height ?? 0,
-        sectionTop: rect?.top ?? 0,
-        transitionLetterCount: letters.length,
-        transitionLetterText: letters
-          .map((letter) => letter.textContent ?? "")
-          .join(""),
-        productCardsFitViewport: cardBottom <= window.innerHeight + 1,
-      };
-    });
-
-    if (Math.abs(categoryDiagnostics.sectionHeight - viewport.height) > 2) {
-      throw new Error(`${viewport.name}: category section is not one viewport`);
+      await page.screenshot({ path: sectionScreenshotPath });
+      sectionScreenshots.push({
+        screenshot: sectionScreenshotPath,
+        diagnostics: sectionDiagnostics,
+      });
     }
-
-    if (!categoryDiagnostics.productCardsFitViewport) {
-      throw new Error(
-        `${viewport.name}: product cards exceed category viewport`,
-      );
-    }
-
-    if (categoryDiagnostics.transitionLetterText !== "Ceramics") {
-      throw new Error(`${viewport.name}: transition letters did not render`);
-    }
-
-    const categoryScreenshotPath = path.join(
-      screenshotDir,
-      `freykraft-${viewport.name}-category.png`,
-    );
-    await page.screenshot({ path: categoryScreenshotPath, fullPage: true });
 
     results.push({
       viewport: viewport.name,
       screenshot: screenshotPath,
-      categoryScreenshot: categoryScreenshotPath,
-      categoryDiagnostics,
+      sectionScreenshots,
       diagnostics,
     });
 
     await page.close();
   }
 
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1280, height: 900 });
-  await page.goto(url, { waitUntil: "networkidle0" });
+  const routePage = await browser.newPage();
+  await routePage.setViewport({ width: 1280, height: 900 });
+  for (const route of routes) {
+    await routePage.goto(pageUrl(route), { waitUntil: "networkidle0" });
+    const routeDiagnostics = await routePage.evaluate(() => ({
+      route: location.pathname,
+      h1: document
+        .querySelector("h1")
+        ?.textContent?.replace(/\s+/g, " ")
+        .trim(),
+      cards: document.querySelectorAll(".fk-panel, .fk-product-card").length,
+      imageFrames: document.querySelectorAll(".fk-image-frame").length,
+      horizontalOverflow: Math.ceil(
+        document.documentElement.scrollWidth - window.innerWidth,
+      ),
+    }));
+
+    if (!routeDiagnostics.h1) {
+      throw new Error(`${route}: missing H1`);
+    }
+
+    if (routeDiagnostics.horizontalOverflow > 1) {
+      throw new Error(
+        `${route}: horizontal overflow ${routeDiagnostics.horizontalOverflow}px`,
+      );
+    }
+
+    results.push(routeDiagnostics);
+  }
+  await routePage.close();
+
+  const formPage = await browser.newPage();
+  await formPage.setViewport({ width: 1280, height: 900 });
+  await formPage.goto(pageUrl("/"), { waitUntil: "networkidle0" });
   const email = `qa+${Date.now()}@freykraft.test`;
-  await page.type("input[type='email']", email);
-  await page.click("button[type='submit']");
-  await page.waitForFunction(
+  await formPage.type("input[type='email']", email);
+  await formPage.click("button[type='submit']");
+  await formPage.waitForFunction(
     () =>
       document.body.textContent?.includes("You are on the early access list."),
     { timeout: 10000 },
   );
-  await page.close();
+  await formPage.close();
 
   results.push({ formSubmission: "passed", email });
   console.log(JSON.stringify(results, null, 2));

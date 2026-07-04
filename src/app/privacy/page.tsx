@@ -11,7 +11,7 @@ const sections = [
   },
   {
     title: "How information is used",
-    text: "Submitted information is used to respond to inquiries, manage company communication, understand site interest, and support requested marine service or product discussions.",
+    text: "Submitted information is used to respond to inquiries, send launch and early access updates, and understand interest in the store.",
   },
   {
     title: "Sharing",
@@ -29,39 +29,33 @@ const sections = [
 
 export const metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for Freycraft Marine Industries.",
+  description: "Privacy policy for Freykraft.",
 };
 
 export default function PrivacyPage() {
   return (
-    <main className="bg-cream text-ink">
+    <main className="bg-bg text-ink">
       <SiteHeader />
-      <section className="mx-auto max-w-5xl px-5 pb-16 pt-32 sm:px-8 lg:px-10">
-        <p className="inline-flex items-center gap-2 rounded-[8px] border border-olive/20 bg-white/60 px-4 py-2 text-sm font-semibold uppercase text-olive">
+      <section className="mx-auto max-w-5xl px-5 pb-20 pt-32 sm:px-8 lg:px-10">
+        <p className="fk-eyebrow inline-flex items-center gap-2">
           <ShieldCheck aria-hidden="true" className="size-4" />
           Privacy
         </p>
-        <h1 className="mt-6 font-serif text-5xl font-semibold leading-none text-ink sm:text-7xl">
+        <h1 className="mt-6 font-serif text-5xl font-medium leading-tight text-ink sm:text-6xl">
           Privacy Policy
         </h1>
-        <p className="mt-5 text-sm text-ink/56">Last updated: July 3, 2026</p>
+        <p className="mt-5 text-sm text-muted">Last updated: July 3, 2026</p>
         <div className="mt-10 grid gap-4">
           {sections.map((section) => (
-            <article
-              key={section.title}
-              className="rounded-[8px] border border-ink/10 bg-white/62 p-5"
-            >
-              <h2 className="font-serif text-2xl font-semibold text-ink">
+            <article key={section.title} className="fk-panel p-6">
+              <h2 className="font-serif text-2xl font-medium text-ink">
                 {section.title}
               </h2>
-              <p className="mt-3 leading-7 text-ink/70">{section.text}</p>
+              <p className="fk-copy mt-3">{section.text}</p>
             </article>
           ))}
         </div>
-        <Link
-          href="/terms"
-          className="mt-8 inline-flex text-sm font-semibold text-terracotta transition hover:text-terracotta-dark"
-        >
+        <Link href="/terms" className="fk-link mt-8 text-terracotta">
           Read the Terms and Conditions
         </Link>
       </section>

@@ -9,6 +9,8 @@ declare global {
   interface Window {
     FREYKRAFT_CONFIG?: {
       emailCaptureEndpoint?: string;
+      contactEmail?: string;
+      mode?: string;
     };
   }
 }
@@ -28,7 +30,7 @@ export function EmailCaptureForm() {
     return Object.fromEntries(
       ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]
         .map((key) => [key, params.get(key)])
-        .filter((entry): entry is [string, string] => Boolean(entry[1]))
+        .filter((entry): entry is [string, string] => Boolean(entry[1])),
     );
   }, []);
 
@@ -40,22 +42,23 @@ export function EmailCaptureForm() {
     const endpoint = getCaptureEndpoint();
 
     if (!endpoint) {
-      setState("error");
-      setMessage("Email capture needs a form endpoint before launch.");
+      openEmailFallback(email, utm);
+      setState("success");
+      setMessage("Opening your email client for early access.");
       return;
     }
 
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
       body: JSON.stringify({
         email,
         company,
         source: "prelaunch-home",
-        utm
-      })
+        utm,
+      }),
     });
 
     const result = (await response.json()) as {
@@ -76,7 +79,7 @@ export function EmailCaptureForm() {
 
   return (
     <form className="w-full max-w-[620px]" onSubmit={onSubmit}>
-      <div className="flex min-h-14 flex-col gap-3 sm:flex-row">
+      <div className="flex min-h-14 flex-col sm:flex-row">
         <label className="sr-only" htmlFor="email">
           Email address
         </label>
@@ -94,7 +97,7 @@ export function EmailCaptureForm() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="Email for early access"
-            className="h-14 w-full border border-ink/15 bg-cream/92 pl-12 pr-4 text-base text-ink shadow-sm backdrop-blur placeholder:text-taupe"
+            className="h-14 w-full border border-hairline bg-transparent pl-12 pr-4 text-base font-light text-ink outline-none placeholder:text-muted focus:border-muted"
           />
         </div>
         <input
@@ -109,7 +112,7 @@ export function EmailCaptureForm() {
         <button
           type="submit"
           disabled={state === "submitting"}
-          className="inline-flex h-14 min-w-[174px] items-center justify-center gap-2 bg-terracotta px-6 text-base font-semibold text-white shadow-sm transition hover:bg-terracotta-dark disabled:cursor-wait disabled:opacity-70"
+          className="inline-flex h-14 min-w-[174px] items-center justify-center gap-2 bg-forest px-6 text-[12px] font-medium uppercase tracking-[0.16em] text-sand transition hover:bg-forest-dark disabled:cursor-wait disabled:opacity-70"
         >
           {state === "submitting" ? "Joining" : "Join the List"}
           <ArrowRight aria-hidden="true" className="size-5" />
@@ -118,13 +121,18 @@ export function EmailCaptureForm() {
       <p
         className={[
           "mt-3 flex min-h-6 items-center gap-2 text-sm",
-          state === "error" ? "text-terracotta-dark" : "text-olive"
+          state === "error" ? "text-terracotta-dark" : "text-olive",
         ].join(" ")}
         role={state === "error" ? "alert" : "status"}
       >
-        {state === "success" && <CheckCircle2 aria-hidden="true" className="size-4" />}
-        {state === "error" && <TriangleAlert aria-hidden="true" className="size-4" />}
-        {message || "Early access includes launch updates and the opening offer."}
+        {state === "success" && (
+          <CheckCircle2 aria-hidden="true" className="size-4" />
+        )}
+        {state === "error" && (
+          <TriangleAlert aria-hidden="true" className="size-4" />
+        )}
+        {message ||
+          "Early access includes launch updates and first collection notes."}
       </p>
     </form>
   );
@@ -135,14 +143,49 @@ function getCaptureEndpoint() {
     const configuredEndpoint =
       window.FREYKRAFT_CONFIG?.emailCaptureEndpoint?.trim();
 
-    if (configuredEndpoint) {
+    if (configuredEndpoint && !isPlaceholderEndpoint(configuredEndpoint)) {
       return configuredEndpoint;
     }
   }
 
-  if (process.env.NEXT_PUBLIC_EMAIL_CAPTURE_ENDPOINT) {
+  if (
+    process.env.NEXT_PUBLIC_EMAIL_CAPTURE_ENDPOINT &&
+    !isPlaceholderEndpoint(process.env.NEXT_PUBLIC_EMAIL_CAPTURE_ENDPOINT)
+  ) {
     return process.env.NEXT_PUBLIC_EMAIL_CAPTURE_ENDPOINT;
   }
 
-  return process.env.NEXT_PUBLIC_STATIC_EXPORT === "true" ? "" : "/api/subscribe";
+  return process.env.NEXT_PUBLIC_STATIC_EXPORT === "true"
+    ? ""
+    : "/api/subscribe";
+}
+
+function isPlaceholderEndpoint(endpoint: string) {
+  return endpoint.includes("YOUR_ENDPOINT_ID");
+}
+
+function openEmailFallback(email: string, utm: Record<string, string>) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const contactEmail =
+    window.FREYKRAFT_CONFIG?.contactEmail?.trim() || "hello@freykraft.com";
+  const utmText = Object.entries(utm)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join("\n");
+  const body = [
+    "Hello Freykraft studio,",
+    "",
+    "Please add me to early access.",
+    "",
+    `Email: ${email}`,
+    utmText ? `\nCampaign:\n${utmText}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(
+    "Freykraft early access",
+  )}&body=${encodeURIComponent(body)}`;
 }

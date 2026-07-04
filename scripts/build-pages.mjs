@@ -22,15 +22,14 @@ try {
     stdio: "inherit",
     env: {
       ...process.env,
-      GITHUB_PAGES_BASE_PATH:
-        process.env.GITHUB_PAGES_BASE_PATH ?? "/freykraft-com",
+      GITHUB_PAGES_BASE_PATH: process.env.GITHUB_PAGES_BASE_PATH ?? "",
       NEXT_PUBLIC_ASSET_BASE_PATH:
         process.env.NEXT_PUBLIC_ASSET_BASE_PATH ??
         process.env.GITHUB_PAGES_BASE_PATH ??
-        "/freykraft-com",
+        "",
       STATIC_EXPORT: "true",
-      NEXT_PUBLIC_STATIC_EXPORT: "true"
-    }
+      NEXT_PUBLIC_STATIC_EXPORT: "true",
+    },
   });
 
   if (result.status === 0) {

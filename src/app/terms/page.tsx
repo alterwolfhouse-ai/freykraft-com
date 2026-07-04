@@ -7,15 +7,15 @@ import { companyInfo } from "@/data/company";
 const sections = [
   {
     title: "Use of this website",
-    text: "The website provides general company information, contact paths, and draft product or service information. Content may be updated as company details are confirmed.",
+    text: "The website provides general store information, product details, and contact paths. Content, pricing, and availability may be updated at any time.",
   },
   {
-    title: "Quotes and service requests",
-    text: "Any boat manufacturing, repair, marine engine, or service request is subject to direct review, written quotation, availability, technical scope, and agreed commercial terms.",
+    title: "Early access and pricing",
+    text: "The website currently provides early-access product previews. Product availability, prices, and public launch terms may change before commerce opens.",
   },
   {
     title: "Information accuracy",
-    text: "Company profile information is based on material supplied for this site draft. Historical licence or profile details should be verified directly with the company before being treated as current.",
+    text: "Product images, colors, and descriptions are provided as accurately as possible, though natural materials and handmade pieces may vary.",
   },
   {
     title: "Intellectual property",
@@ -29,39 +29,33 @@ const sections = [
 
 export const metadata = {
   title: "Terms and Conditions",
-  description: "Website terms and conditions for Freycraft Marine Industries.",
+  description: "Website terms and conditions for Freykraft.",
 };
 
 export default function TermsPage() {
   return (
-    <main className="bg-cream text-ink">
+    <main className="bg-bg text-ink">
       <SiteHeader />
-      <section className="mx-auto max-w-5xl px-5 pb-16 pt-32 sm:px-8 lg:px-10">
-        <p className="inline-flex items-center gap-2 rounded-[8px] border border-olive/20 bg-white/60 px-4 py-2 text-sm font-semibold uppercase text-olive">
+      <section className="mx-auto max-w-5xl px-5 pb-20 pt-32 sm:px-8 lg:px-10">
+        <p className="fk-eyebrow inline-flex items-center gap-2">
           <FileText aria-hidden="true" className="size-4" />
           Terms
         </p>
-        <h1 className="mt-6 font-serif text-5xl font-semibold leading-none text-ink sm:text-7xl">
+        <h1 className="mt-6 font-serif text-5xl font-medium leading-tight text-ink sm:text-6xl">
           Terms and Conditions
         </h1>
-        <p className="mt-5 text-sm text-ink/56">Last updated: July 3, 2026</p>
+        <p className="mt-5 text-sm text-muted">Last updated: July 3, 2026</p>
         <div className="mt-10 grid gap-4">
           {sections.map((section) => (
-            <article
-              key={section.title}
-              className="rounded-[8px] border border-ink/10 bg-white/62 p-5"
-            >
-              <h2 className="font-serif text-2xl font-semibold text-ink">
+            <article key={section.title} className="fk-panel p-6">
+              <h2 className="font-serif text-2xl font-medium text-ink">
                 {section.title}
               </h2>
-              <p className="mt-3 leading-7 text-ink/70">{section.text}</p>
+              <p className="fk-copy mt-3">{section.text}</p>
             </article>
           ))}
         </div>
-        <Link
-          href="/privacy"
-          className="mt-8 inline-flex text-sm font-semibold text-terracotta transition hover:text-terracotta-dark"
-        >
+        <Link href="/privacy" className="fk-link mt-8 text-terracotta">
           Read the Privacy Policy
         </Link>
       </section>

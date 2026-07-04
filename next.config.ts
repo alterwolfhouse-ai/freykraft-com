@@ -9,18 +9,18 @@ const nextConfig: NextConfig = {
         ...(pagesBasePath
           ? {
               assetPrefix: pagesBasePath,
-              basePath: pagesBasePath
+              basePath: pagesBasePath,
             }
           : {}),
         output: "export" as const,
-        trailingSlash: true
+        trailingSlash: true,
       }
     : {}),
   images: {
     formats: ["image/avif", "image/webp"],
-    ...(isStaticExport ? { unoptimized: true } : {})
+    ...(isStaticExport ? { unoptimized: true } : {}),
   },
-  poweredByHeader: false
+  poweredByHeader: false,
 };
 
 export default nextConfig;

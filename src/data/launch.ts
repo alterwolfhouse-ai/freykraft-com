@@ -4,12 +4,12 @@ export const earlyAccessBenefits = [
   {
     icon: Sparkles,
     label: "Early access",
-    text: "Preview the first Freycraft update before public launch.",
+    text: "Preview the first Freykraft update before public launch.",
   },
   {
     icon: Gift,
-    label: "10% launch offer",
-    text: "Receive the opening code when the store goes live.",
+    label: "First collection note",
+    text: "Receive the opening update when the store goes live.",
   },
   {
     icon: Leaf,
@@ -21,11 +21,11 @@ export const earlyAccessBenefits = [
 export const trustSignals = [
   {
     icon: ShieldCheck,
-    label: "Secure checkout planned",
+    label: "Early-access only",
   },
   {
     icon: Truck,
-    label: "Free shipping over $75",
+    label: "Shipping details pending",
   },
   {
     icon: Leaf,

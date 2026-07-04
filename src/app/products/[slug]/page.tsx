@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ArrowRight, Mail } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { categories, getCategory } from "@/data/storefront";
+import { categories, formatPrice, getCategory } from "@/data/storefront";
 import { publicAssetPath } from "@/lib/paths";
 
 type ProductCategoryPageProps = {
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: ProductCategoryPageProps) {
   }
 
   return {
-    title: `${category.name} | Freycraft`,
+    title: `${category.name} | Freykraft`,
     description: category.intro,
   };
 }
@@ -42,73 +42,106 @@ export default async function ProductCategoryPage({
     notFound();
   }
 
+  const leadProduct = category.products[0];
+
   return (
-    <main className="bg-cream text-ink">
+    <main className="bg-bg text-ink">
       <SiteHeader />
-      <section className="relative min-h-[78svh] overflow-hidden pt-28 text-cream">
-        <Image
-          src={publicAssetPath(category.image)}
-          alt={`${category.name} collection`}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(43,38,34,0.9)_0%,rgba(43,38,34,0.68)_48%,rgba(43,38,34,0.18)_100%)]"
-        />
-        <div className="relative mx-auto flex min-h-[60svh] max-w-7xl items-center px-5 sm:px-8 lg:px-10">
-          <div className="max-w-3xl">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-cream/76 transition hover:text-white"
-            >
-              <ArrowLeft aria-hidden="true" className="size-4" />
-              All products
-            </Link>
-            <p className="mt-8 text-sm font-semibold uppercase text-cream/72">
-              {category.kicker}
-            </p>
-            <h1 className="mt-4 font-serif text-5xl font-semibold leading-none text-cream sm:text-7xl">
-              {category.headline}
-            </h1>
-            <p className="mt-6 max-w-[620px] text-lg leading-8 text-cream/78">
-              {category.intro}
-            </p>
-            <p className="mt-6 inline-flex rounded-[8px] border border-cream/20 bg-cream/10 px-4 py-3 text-sm font-semibold text-cream backdrop-blur">
-              {category.offer}
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="mx-auto max-w-7xl px-5 py-14 sm:px-8 lg:px-10">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase text-olive">
-              {category.name}
-            </p>
-            <h2 className="mt-2 font-serif text-4xl font-semibold text-ink">
-              Collection products
-            </h2>
-          </div>
-          <Link
-            href="/cart"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-[8px] bg-ink px-4 text-sm font-semibold text-cream transition hover:bg-terracotta"
-          >
-            <ShoppingBag aria-hidden="true" className="size-4" />
-            Continue to cart
+
+      <section className="mx-auto grid max-w-[1600px] gap-10 px-5 pb-16 pt-32 sm:px-8 lg:grid-cols-[1.08fr_0.72fr] lg:px-12">
+        <div>
+          <Link href="/products" className="fk-link text-muted">
+            <ArrowLeft aria-hidden="true" className="size-4" />
+            All products
           </Link>
-        </div>
-        <div className="mt-7 grid gap-4 md:grid-cols-2">
-          {category.products.map((product) => (
-            <ProductCard
-              key={product.slug}
-              product={{ ...product, categorySlug: category.slug }}
+          <div className="fk-image-frame mt-7 aspect-[5/4] bg-sand">
+            <Image
+              src={publicAssetPath(category.image)}
+              alt={`${category.name} collection`}
+              fill
+              priority
+              sizes="(min-width: 1024px) 58vw, 90vw"
+              className="object-cover"
             />
-          ))}
+            <span className="absolute bottom-4 left-4 font-mono text-[11px] text-ink/50">
+              freykraft / {category.slug}
+            </span>
+            <span className="absolute right-4 top-4 text-[11px] font-medium uppercase tracking-[0.16em] text-ink/45">
+              Collection view
+            </span>
+          </div>
+        </div>
+
+        <aside className="border-hairline lg:border-l lg:pl-12">
+          <p className="fk-eyebrow">{category.kicker}</p>
+          <h1 className="mt-4 font-serif text-5xl font-medium leading-tight text-ink sm:text-6xl">
+            {category.headline}
+          </h1>
+          <p className="fk-copy mt-6 text-base">{category.intro}</p>
+          <p className="mt-6 text-xl text-ink">
+            {formatPrice(leadProduct.priceCents)}
+          </p>
+
+          <dl className="mt-8 border-t border-hairline">
+            {[
+              ["Collection", category.name],
+              ["Featured", leadProduct.name],
+              ["Offer", category.offer],
+            ].map(([label, value]) => (
+              <div
+                key={label}
+                className="grid gap-3 border-b border-hairline-soft py-4 sm:grid-cols-[120px_1fr]"
+              >
+                <dt className="text-[12px] font-medium uppercase tracking-[0.14em] text-muted">
+                  {label}
+                </dt>
+                <dd className="text-sm leading-6 text-ink">{value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row lg:flex-col">
+            <Link href="/#early-access" className="fk-button fk-button-primary">
+              <Mail aria-hidden="true" className="size-4" />
+              Join early access
+            </Link>
+            <Link href="/contact" className="fk-button fk-button-secondary">
+              Ask about gifting
+            </Link>
+          </div>
+        </aside>
+      </section>
+
+      <section className="border-t border-hairline bg-sand/70">
+        <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 lg:px-12">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="fk-eyebrow">{category.name}</p>
+              <h2 className="mt-2 font-serif text-4xl font-medium text-ink">
+                Collection products
+              </h2>
+            </div>
+            <Link href="/products" className="fk-link text-ink">
+              Browse all
+              <ArrowRight aria-hidden="true" className="size-4" />
+            </Link>
+          </div>
+          <div className="grid gap-9 md:grid-cols-2">
+            {category.products.map((product) => (
+              <ProductCard
+                key={product.slug}
+                product={{
+                  ...product,
+                  category: category.name,
+                  categorySlug: category.slug,
+                  image: category.image,
+                }}
+              />
+            ))}
+          </div>
         </div>
       </section>
+
       <SiteFooter />
     </main>
   );

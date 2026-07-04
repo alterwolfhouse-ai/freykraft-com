@@ -1,61 +1,49 @@
 export const companyInfo = {
-  displayName: "Freycraft Marine Industries Sdn Bhd",
-  registrationNumber: "55446-D",
-  incorporated: "22 February 1980",
-  founder: "Godfrey K. L. Yin",
-  address:
-    "Kg. Gayang, opposite Petronas Gas Terminal, Jalan Sulaman, Tuaran, Sabah, Malaysia",
-  registeredOffice:
-    "Kg. Bambangan Jalan Bantayan Minintod, off KM 1 Jalan Kiansom, Inanam, about 10 km from Kota Kinabalu city.",
-  postalAddress: "P. O. Box A-15, 89357 Inanam, Kota Kinabalu, Sabah, Malaysia",
-  phone: "+60 12 820 5855",
-  email: "godfreyyin@gmail.com",
+  displayName: "Freykraft",
+  established: "2026",
+  founder: "Freykraft studio",
+  address: "Online home decor studio serving early-access US shoppers.",
+  studio:
+    "A maker-led home studio curating ceramics, textiles, wall art, small furniture, and gifts.",
+  postalAddress: "Freykraft online store",
+  phone: "",
+  email: "hello@freykraft.com",
   summary:
-    "Freycraft Marine Industries Sdn Bhd is a Sabah-based fiberglass boat builder with roots in speed boat construction, marine engine service, and boat repair.",
-  factory:
-    "Factory site at Kg. Gayang with fiberglass moulding, welding, woodworking, and spray painting facilities.",
-  note: "Company profile information is based on material supplied for the site draft.",
+    "Freykraft is a maker-led home decor store offering artisan ceramics, textiles, wall art, small furniture, and giftable objects shaped by natural materials.",
+  focus:
+    "Curated, small-batch home goods with natural materials and artisan detail.",
 };
 
 export const companyHighlights = [
   {
-    label: "Started before incorporation",
+    label: "What we make",
     value:
-      "Began as a speed boat building contractor before formal incorporation.",
+      "Ceramics, textiles, wall art, small furniture, and giftable objects, curated into room-ready collections.",
   },
   {
-    label: "Incorporated",
-    value: companyInfo.incorporated,
+    label: "Established",
+    value: companyInfo.established,
   },
   {
-    label: "Capabilities",
+    label: "Materials",
     value:
-      "Fiberglass moulding, stainless steel, aluminium and steel welding, woodworking, spray painting, boat repair, and marine engine service.",
+      "Clay, linen, wool, bamboo, teak, and natural fibers, finished with artisan detail.",
   },
   {
-    label: "Current scale",
+    label: "Launch status",
     value:
-      "Produces boats up to 55 feet, including catamaran designs developed in house.",
+      "Phase 1 is early access only. Join the list for first collection updates.",
   },
 ];
 
 export const companyProfileRows = [
-  [
-    "Company Name",
-    `${companyInfo.displayName} (${companyInfo.registrationNumber})`,
-  ],
-  ["Date incorporated", companyInfo.incorporated],
-  ["Founder / Director", "Godfrey K. L. Yin"],
-  ["Director", "Stella Mijol"],
-  ["Registered Office", companyInfo.registeredOffice],
-  ["Factory Site", companyInfo.address],
-  ["Facilities", companyHighlights[2].value],
-  [
-    "Main Business",
-    "Manufacturing fiberglass boats, sales and service of marine engines, repair and service of boats.",
-  ],
-  ["Postal Address", companyInfo.postalAddress],
-  ["Contact", `${companyInfo.phone} / ${companyInfo.email}`],
+  ["Store", companyInfo.displayName],
+  ["Established", companyInfo.established],
+  ["Focus", "Maker-led home decor and gifts"],
+  ["Collections", "Tabletop, Textiles, Wall Decor, Furniture, and Gifts"],
+  ["Materials", "Clay, linen, wool, bamboo, teak, and natural fibers."],
+  ["Launch status", "Exclusive early access before public commerce opens."],
+  ["Contact", companyInfo.email],
 ];
 
 export const footerLinks = [
@@ -69,27 +57,27 @@ export const footerLinks = [
 
 export const blogPosts = [
   {
-    title: "Highlights from Freycraft's boatbuilding history",
-    slug: "boatbuilding-history",
-    eyebrow: "Highlights",
+    title: "Styling a slower morning table",
+    slug: "styling-morning-table",
+    eyebrow: "Tabletop",
     excerpt:
-      "From a 14-foot speed boat to larger in-house catamaran builds, Freycraft's story is shaped by hands-on fiberglass experience.",
-    date: "Company Story",
+      "How ceramics and natural glaze variation can bring calm to everyday rituals.",
+    date: "July 2026",
   },
   {
-    title: "What fiberglass boat manufacturing requires",
-    slug: "fiberglass-boat-manufacturing",
-    eyebrow: "Workshop",
+    title: "Layering textiles for warmth and texture",
+    slug: "layering-textiles",
+    eyebrow: "Textiles",
     excerpt:
-      "A practical look at moulding, welding, woodworking, spray painting, and the workshop capabilities behind marine builds.",
-    date: "Manufacturing",
+      "Throws, woven cushions, and tactile fibers that make a room feel considered.",
+    date: "July 2026",
   },
   {
-    title: "Marine service, repair, and engine support",
-    slug: "marine-service-repair",
-    eyebrow: "Service",
+    title: "Gifts that do not feel generic",
+    slug: "considered-gifting",
+    eyebrow: "Gifts",
     excerpt:
-      "Why the complete owner journey includes boat repair, marine engine service, and clear support contact paths.",
-    date: "Support",
+      "Candles, soap trios, and small-batch objects packed for meaningful gifting.",
+    date: "July 2026",
   },
 ];

@@ -31,3 +31,6 @@ output/
 
 # source handoffs stay local unless explicitly approved for publishing
 *.pdf
+*.zip
+CONTENT-AUDIT-AND-DOMAIN-SETUP.md
+action-plan.md

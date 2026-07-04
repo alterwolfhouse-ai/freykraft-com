@@ -13,15 +13,15 @@ export function BrandMark({
     <Link
       href="/"
       className="group flex min-w-0 items-center gap-3"
-      aria-label="Freycraft home"
+      aria-label="Freykraft home"
     >
-      <span className="brand-orbit" aria-hidden="true">
-        <span className="brand-cube">
-          <span className="brand-face brand-face-front">F</span>
-          <span className="brand-face brand-face-right" />
-          <span className="brand-face brand-face-top" />
-        </span>
-      </span>
+      <span
+        className={[
+          "fk-mark transition-transform duration-500 group-hover:scale-110",
+          inverse ? "text-cream" : "text-ink",
+        ].join(" ")}
+        aria-hidden="true"
+      />
       <span
         className={[
           "leading-none",
@@ -30,19 +30,11 @@ export function BrandMark({
       >
         <span
           className={[
-            "block font-serif text-[22px] font-semibold",
+            "block font-serif text-[24px] font-semibold tracking-[0.01em]",
             inverse ? "text-cream" : "text-ink",
           ].join(" ")}
         >
-          Freycraft
-        </span>
-        <span
-          className={[
-            "mt-1 block text-[11px] uppercase",
-            inverse ? "text-cream/75" : "text-taupe",
-          ].join(" ")}
-        >
-          Marine Industries
+          frey<em className="font-medium text-terracotta">Kraft</em>
         </span>
       </span>
     </Link>

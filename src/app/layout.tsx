@@ -1,33 +1,55 @@
 import type { Metadata } from "next";
+import { Jost, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import { publicAssetPath } from "@/lib/paths";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://freykraft.com";
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Freykraft",
+  url: siteUrl,
+  email: "hello@freykraft.com",
+  description:
+    "Maker-led home decor store offering artisan ceramics, textiles, wall art, small furniture, and giftable objects.",
+};
+
+const jost = Jost({
+  subsets: ["latin"],
+  variable: "--font-jost",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Freycraft Marine Industries Sdn Bhd",
-    template: "%s | Freycraft",
+    default: "Freykraft - Maker-led home decor & gifts",
+    template: "%s | Freykraft",
   },
   description:
-    "Freycraft Marine Industries Sdn Bhd is a Sabah-based fiberglass boat builder, marine engine service provider, and boat repair company.",
+    "Freykraft is a maker-led home decor store offering artisan ceramics, textiles, wall art, small furniture, and giftable objects shaped by natural materials.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Freycraft Marine Industries Sdn Bhd",
+    title: "Freykraft - Maker-led home decor & gifts",
     description:
-      "Explore Freycraft Marine Industries company profile, marine services, and fiberglass boatbuilding highlights.",
+      "Preview artisan ceramics, textiles, wall art, furniture, and gifts before the first Freykraft collection opens.",
     url: siteUrl,
-    siteName: "Freycraft",
+    siteName: "Freykraft",
     images: [
       {
-        url: "/images/freykraft-hero-still-life.png",
-        width: 1536,
-        height: 1024,
-        alt: "Freycraft Marine Industries company profile image.",
+        url: "/images/freykraft-hero-still-life.webp",
+        width: 1280,
+        height: 683,
+        alt: "Freykraft home decor still life.",
       },
     ],
     locale: "en_US",
@@ -35,10 +57,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Freycraft Marine Industries Sdn Bhd",
+    title: "Freykraft - Maker-led home decor & gifts",
     description:
-      "Fiberglass boatbuilding, marine engine service, and boat repair in Sabah.",
-    images: ["/images/freykraft-hero-still-life.png"],
+      "Artisan ceramics, textiles, wall art, furniture, and gifts, curated into room-ready collections.",
+    images: ["/images/freykraft-hero-still-life.webp"],
   },
 };
 
@@ -49,10 +71,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${jost.variable} ${playfair.variable}`}>
         <Script
           src={publicAssetPath("/freykraft-config.js")}
           strategy="beforeInteractive"
+        />
+        <Script
+          id="freykraft-organization-jsonld"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
         />
         {children}
       </body>

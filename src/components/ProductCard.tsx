@@ -1,64 +1,98 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
-import type { Product } from "@/data/storefront";
+import { ArrowRight } from "lucide-react";
+import { formatPrice, type Product } from "@/data/storefront";
+import { publicAssetPath } from "@/lib/paths";
 
 type ProductCardProps = {
   product: Product & {
     categorySlug?: string;
     category?: string;
+    image?: string;
   };
   compact?: boolean;
 };
 
 export function ProductCard({ product, compact = false }: ProductCardProps) {
+  const href = product.categorySlug
+    ? `/products/${product.categorySlug}`
+    : "/products";
+
   return (
     <article
       className={[
-        "group flex h-full flex-col justify-between rounded-[8px] border border-ink/10 bg-cream/88 shadow-sm backdrop-blur",
-        compact ? "p-3 sm:p-4" : "p-4",
+        "fk-product-card group flex h-full flex-col",
+        compact ? "" : "max-w-full",
       ].join(" ")}
     >
-      <div>
-        <div className="mb-3 flex items-center justify-between gap-3">
-          <span className="rounded-[8px] bg-olive/10 px-3 py-1 text-xs font-semibold text-olive">
-            {product.badge ?? product.category ?? "Artisan"}
-          </span>
-          <span className="text-sm font-semibold text-terracotta">
-            {product.compareAt && (
-              <span className="mr-2 text-taupe line-through">
-                {product.compareAt}
-              </span>
-            )}
-            {product.price}
+      <Link
+        href={href}
+        className={[
+          "fk-image-frame block",
+          compact ? "aspect-[4/5]" : "aspect-[5/4] md:aspect-[4/5]",
+        ].join(" ")}
+      >
+        {product.image ? (
+          <Image
+            src={publicAssetPath(product.image)}
+            alt={product.name}
+            fill
+            sizes={compact ? "(min-width: 1024px) 25vw, 50vw" : "50vw"}
+            className="object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 grid place-items-center bg-sand px-5 text-center font-mono text-[11px] text-muted">
+            photo - {product.name.toLowerCase()}
+          </div>
+        )}
+        <span className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-2 border border-ink bg-bg/95 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.16em] text-ink opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">
+          View
+        </span>
+      </Link>
+
+      <div className="flex flex-1 flex-col pt-4">
+        <div className="flex items-baseline justify-between gap-4">
+          <div>
+            <Link
+              href={href}
+              className={[
+                "font-serif font-medium leading-tight text-ink transition hover:text-terracotta",
+                compact ? "text-[21px]" : "text-2xl",
+              ].join(" ")}
+            >
+              {product.name}
+            </Link>
+            <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.14em] text-muted">
+              {product.badge ?? product.category ?? "Artisan"}
+            </p>
+          </div>
+          <span className="shrink-0 text-[15px] text-ink">
+            {formatPrice(product.priceCents)}
           </span>
         </div>
-        <h3
-          className={[
-            "font-serif font-semibold leading-tight text-ink",
-            compact ? "text-xl sm:text-2xl" : "text-2xl",
-          ].join(" ")}
-        >
-          {product.name}
-        </h3>
+
         <p
           className={[
-            "mt-3 leading-7 text-ink/70",
+            "fk-copy mt-3",
             compact ? "hidden text-sm sm:block" : "text-base",
           ].join(" ")}
         >
           {product.description}
         </p>
+
+        <Link
+          href={href}
+          className={[
+            "mt-auto pt-5 text-terracotta",
+            compact ? "hidden sm:inline-flex" : "inline-flex",
+          ].join(" ")}
+        >
+          <span className="fk-link">
+            View details
+            <ArrowRight aria-hidden="true" className="size-4" />
+          </span>
+        </Link>
       </div>
-      <Link
-        href={`/products/${product.categorySlug ?? ""}`}
-        className={[
-          "mt-5 inline-flex items-center justify-center gap-2 rounded-[8px] bg-ink px-4 font-semibold text-cream transition hover:bg-terracotta",
-          compact ? "h-10 text-xs sm:text-sm" : "h-11 text-sm",
-        ].join(" ")}
-      >
-        <ShoppingBag aria-hidden="true" className="size-4" />
-        View details
-      </Link>
     </article>
   );
 }
