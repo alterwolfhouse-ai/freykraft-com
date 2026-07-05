@@ -261,11 +261,29 @@ html.fk-js [data-reveal].is-inview {
   transform: none;
 }
 
+/* --- Hero sizing: always fit the viewport, scale to the screen --- */
+.fk-hero {
+  min-height: 100svh;
+}
+
+@media (min-width: 1024px) {
+  .fk-hero {
+    height: 100svh;
+    min-height: 640px;
+  }
+}
+
+/* Fluid headline that shrinks with the viewport so the hero never overflows */
+.fk-hero-title {
+  font-size: clamp(2.1rem, 5.2vw, 5rem);
+  line-height: 1.05;
+}
+
 /* --- Hero entrance choreography (pure CSS, runs on load) --- */
 .fk-hero-item {
   opacity: 0;
-  animation: fkRise 1s var(--fk-ease) forwards;
-  animation-delay: calc(var(--fk-i, 0) * 130ms + 120ms);
+  animation: fkRise 1.35s var(--fk-ease) forwards;
+  animation-delay: calc(var(--fk-i, 0) * 180ms + 160ms);
 }
 
 @keyframes fkRise {
@@ -291,8 +309,8 @@ html.fk-js [data-reveal].is-inview {
 .fk-word > span {
   display: inline-block;
   transform: translateY(112%);
-  animation: fkWord 0.9s var(--fk-ease) forwards;
-  animation-delay: calc(var(--fk-i, 0) * 75ms + 250ms);
+  animation: fkWord 1.25s var(--fk-ease) forwards;
+  animation-delay: calc(var(--fk-i, 0) * 130ms + 320ms);
 }
 
 @keyframes fkWord {
@@ -323,6 +341,21 @@ html.fk-js [data-reveal].is-inview {
 /* Slow drift on hero imagery for a living, handcrafted feel */
 .fk-drift {
   animation: fkDrift 11s ease-in-out infinite alternate;
+}
+
+/* Ken Burns drift on the active hero slide */
+.fk-slide-active {
+  animation: fkSlideZoom 6s ease-out forwards;
+}
+
+@keyframes fkSlideZoom {
+  from {
+    transform: scale(1.02);
+  }
+
+  to {
+    transform: scale(1.09);
+  }
 }
 
 @keyframes fkDrift {

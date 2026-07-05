@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { ArrowRight } from "lucide-react";
 import { EmailCaptureForm } from "@/components/EmailCaptureForm";
+import { HeroSlideshow } from "@/components/home/HeroSlideshow";
 import { ProductCard } from "@/components/ProductCard";
 import { SiteFooter } from "@/components/SiteFooter";
 import {
@@ -28,7 +29,7 @@ const heroWords: Array<{ text: string; accent?: boolean }> = [
 
 function HeroHeadline() {
   return (
-    <h1 className="mt-7 font-serif text-5xl font-medium leading-[1.04] text-ink sm:text-7xl lg:text-8xl">
+    <h1 className="fk-hero-title mt-4 font-serif font-medium text-ink sm:mt-5">
       {heroWords.map((word, index) => (
         <Fragment key={word.text}>
           <span className="fk-word">
@@ -66,13 +67,13 @@ function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-[92svh] overflow-hidden border-b border-hairline pt-24"
+      className="fk-hero relative flex flex-col overflow-hidden border-b border-hairline pt-20"
     >
       <div
         aria-hidden="true"
         className="fk-field-lines absolute left-[-16rem] top-[-12rem] size-[34rem] opacity-70"
       />
-      <div className="mx-auto grid min-h-[calc(92svh-6rem)] max-w-[1600px] items-center gap-10 px-5 py-16 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
+      <div className="mx-auto grid min-h-0 w-full max-w-[1600px] flex-1 items-center gap-6 px-5 py-4 sm:gap-10 sm:px-8 sm:py-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
         <div className="relative z-10 mx-auto max-w-[840px] text-center lg:mx-0 lg:text-left">
           <p
             className="fk-eyebrow fk-hero-item"
@@ -81,35 +82,20 @@ function Hero() {
             Handcrafted home decor - small batch - USA
           </p>
           <div
-            className="fk-hero-item mt-7 grid grid-cols-3 gap-2 lg:hidden"
+            className="fk-hero-item mt-5 lg:hidden"
             style={{ "--fk-i": 1 } as React.CSSProperties}
           >
-            {[
-              "/images/freykraft-tabletop-ceramics.webp",
-              "/images/freykraft-textiles-throws.webp",
-              "/images/freykraft-hero-still-life.webp",
-            ].map((image, index) => (
-              <div key={image} className="fk-image-frame aspect-square">
-                <Image
-                  src={publicAssetPath(image)}
-                  alt={`Freykraft mobile hero ${index + 1}`}
-                  fill
-                  priority
-                  sizes="30vw"
-                  className="object-cover"
-                />
-              </div>
-            ))}
+            <HeroSlideshow />
           </div>
           <HeroHeadline />
           <p
-            className="fk-copy fk-hero-item mx-auto mt-7 max-w-[48ch] text-lg lg:mx-0"
+            className="fk-copy fk-hero-item mx-auto mt-4 max-w-[48ch] text-base sm:mt-6 sm:text-lg lg:mx-0"
             style={{ "--fk-i": 4 } as React.CSSProperties}
           >
             {heroSlides[0].text}
           </p>
           <div
-            className="fk-hero-item mt-10 flex flex-col items-center justify-center gap-5 sm:flex-row lg:justify-start"
+            className="fk-hero-item mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
             style={{ "--fk-i": 5 } as React.CSSProperties}
           >
             <Link href="/products" className="fk-button fk-button-primary">
@@ -123,65 +109,23 @@ function Hero() {
           </div>
           <div
             id="early-access"
-            className="fk-hero-item mx-auto mt-10 scroll-mt-28 lg:mx-0"
+            className="fk-hero-item mx-auto mt-6 scroll-mt-28 lg:mx-0"
             style={{ "--fk-i": 6 } as React.CSSProperties}
           >
             <EmailCaptureForm />
           </div>
         </div>
 
-        <div className="hidden content-center lg:grid lg:grid-cols-[1fr_0.85fr] lg:gap-5">
-          <div
-            className="fk-image-frame fk-hero-img aspect-[3/4] w-full self-center shadow-[0_40px_80px_-42px_rgba(31,29,26,0.5)]"
-            style={{ "--fk-i": 0 } as React.CSSProperties}
-            data-parallax="0.05"
-          >
-            <Image
-              src={publicAssetPath("/images/freykraft-hero-still-life.webp")}
-              alt="Freykraft home decor still life"
-              fill
-              priority
-              sizes="(min-width: 1024px) 30vw, 90vw"
-              className="fk-drift object-cover"
-            />
-          </div>
-          <div className="grid translate-y-10 gap-5 self-center">
-            <div
-              className="fk-image-frame fk-hero-img aspect-[4/5] w-full shadow-[0_34px_64px_-30px_rgba(31,29,26,0.4)]"
-              style={{ "--fk-i": 1 } as React.CSSProperties}
-              data-parallax="0.09"
-            >
-              <Image
-                src={publicAssetPath(
-                  "/images/freykraft-tabletop-ceramics.webp",
-                )}
-                alt="Freykraft tabletop ceramics"
-                fill
-                priority
-                sizes="(min-width: 1024px) 24vw, 90vw"
-                className="fk-drift object-cover"
-              />
-            </div>
-            <div
-              className="fk-image-frame fk-hero-img aspect-square w-full shadow-[0_34px_64px_-30px_rgba(31,29,26,0.38)]"
-              style={{ "--fk-i": 2 } as React.CSSProperties}
-              data-parallax="0.12"
-            >
-              <Image
-                src={publicAssetPath("/images/freykraft-textiles-throws.webp")}
-                alt="Freykraft woven textiles"
-                fill
-                priority
-                sizes="(min-width: 1024px) 24vw, 90vw"
-                className="fk-drift object-cover"
-              />
-            </div>
-          </div>
+        <div
+          className="hidden self-center lg:block"
+          data-parallax="0.05"
+        >
+          <HeroSlideshow />
         </div>
       </div>
 
-      <div className="border-t border-hairline bg-bg/72 py-4">
-        <div className="fk-marquee flex w-max whitespace-nowrap font-serif text-xl italic text-ink/45">
+      <div className="shrink-0 border-t border-hairline bg-bg/72 py-3">
+        <div className="fk-marquee flex w-max whitespace-nowrap font-serif text-lg italic text-ink/45 sm:text-xl">
           <span>{marqueeText}</span>
           <span>{marqueeText}</span>
           <span>{marqueeText}</span>
