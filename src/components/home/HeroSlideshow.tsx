@@ -10,6 +10,14 @@ type Slide = {
   caption: string;
 };
 
+// TODO(codex — content pass): image work, pending uploads from the owner.
+//  1. Add a DEDICATED urn photo (e.g. /images/freykraft-urns.webp) and point the
+//     "Urns & Vessels" slide at it — right now it borrows freykraft-hero-sale.webp.
+//  2. NO REPEATED IMAGES: each slide must use a unique photo, AND those photos should
+//     not be the same shots reused lower on the page (CraftGrid categories, FeaturedPiece,
+//     LaunchGrid cards currently reuse these category images). Source one distinct hero
+//     image per category so nothing appears twice across the homepage.
+//  3. Keep 5 slides / labels below; only swap the `image` paths once assets land.
 const slides: Slide[] = [
   {
     image: "/images/freykraft-tabletop-ceramics.webp",
@@ -38,7 +46,7 @@ const slides: Slide[] = [
   },
 ];
 
-const INTERVAL = 4200;
+const INTERVAL = 6500;
 
 export function HeroSlideshow() {
   const [index, setIndex] = useState(0);
@@ -64,7 +72,7 @@ export function HeroSlideshow() {
 
   return (
     <div
-      className="fk-hero-img fk-image-frame relative aspect-[4/3] w-full overflow-hidden shadow-[0_40px_80px_-42px_rgba(31,29,26,0.5)] lg:aspect-auto lg:h-[min(74svh,700px)]"
+      className="fk-hero-img fk-image-frame relative aspect-[16/9] w-full overflow-hidden shadow-[0_40px_80px_-42px_rgba(31,29,26,0.5)] lg:aspect-auto lg:h-[min(74svh,700px)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       role="group"
@@ -74,7 +82,7 @@ export function HeroSlideshow() {
       {slides.map((slide, i) => (
         <div
           key={slide.image}
-          className="absolute inset-0 transition-opacity duration-1000 ease-out"
+          className="absolute inset-0 transition-opacity duration-[1600ms] ease-out"
           style={{ opacity: i === index ? 1 : 0 }}
           aria-hidden={i !== index}
         >

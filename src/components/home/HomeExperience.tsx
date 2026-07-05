@@ -29,7 +29,7 @@ const heroWords: Array<{ text: string; accent?: boolean }> = [
 
 function HeroHeadline() {
   return (
-    <h1 className="fk-hero-title mt-4 font-serif font-medium text-ink sm:mt-5">
+    <h1 className="fk-hero-title mt-3 font-serif font-medium text-ink sm:mt-5">
       {heroWords.map((word, index) => (
         <Fragment key={word.text}>
           <span className="fk-word">
@@ -73,7 +73,7 @@ function Hero() {
         aria-hidden="true"
         className="fk-field-lines absolute left-[-16rem] top-[-12rem] size-[34rem] opacity-70"
       />
-      <div className="mx-auto grid min-h-0 w-full max-w-[1600px] flex-1 items-center gap-6 px-5 py-4 sm:gap-10 sm:px-8 sm:py-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
+      <div className="mx-auto grid min-h-0 w-full max-w-[1600px] flex-1 items-center gap-4 px-5 py-2 sm:gap-10 sm:px-8 sm:py-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-12">
         <div className="relative z-10 mx-auto max-w-[840px] text-center lg:mx-0 lg:text-left">
           <p
             className="fk-eyebrow fk-hero-item"
@@ -82,20 +82,20 @@ function Hero() {
             Handcrafted home decor - small batch - USA
           </p>
           <div
-            className="fk-hero-item mt-5 lg:hidden"
+            className="fk-hero-item mt-4 lg:hidden"
             style={{ "--fk-i": 1 } as React.CSSProperties}
           >
             <HeroSlideshow />
           </div>
           <HeroHeadline />
           <p
-            className="fk-copy fk-hero-item mx-auto mt-4 max-w-[48ch] text-base sm:mt-6 sm:text-lg lg:mx-0"
+            className="fk-copy fk-hero-copy fk-hero-item mx-auto mt-3 max-w-[48ch] text-base sm:mt-6 sm:text-lg lg:mx-0"
             style={{ "--fk-i": 4 } as React.CSSProperties}
           >
             {heroSlides[0].text}
           </p>
           <div
-            className="fk-hero-item mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
+            className="fk-hero-item mt-4 flex flex-col items-center justify-center gap-3 sm:mt-6 sm:flex-row sm:gap-4 lg:justify-start"
             style={{ "--fk-i": 5 } as React.CSSProperties}
           >
             <Link href="/products" className="fk-button fk-button-primary">
@@ -109,7 +109,7 @@ function Hero() {
           </div>
           <div
             id="early-access"
-            className="fk-hero-item mx-auto mt-6 scroll-mt-28 lg:mx-0"
+            className="fk-hero-item mx-auto mt-4 scroll-mt-28 sm:mt-6 lg:mx-0"
             style={{ "--fk-i": 6 } as React.CSSProperties}
           >
             <EmailCaptureForm />
@@ -124,7 +124,7 @@ function Hero() {
         </div>
       </div>
 
-      <div className="shrink-0 border-t border-hairline bg-bg/72 py-3">
+      <div className="fk-hero-marquee shrink-0 border-t border-hairline bg-bg/72 py-3">
         <div className="fk-marquee flex w-max whitespace-nowrap font-serif text-lg italic text-ink/45 sm:text-xl">
           <span>{marqueeText}</span>
           <span>{marqueeText}</span>
